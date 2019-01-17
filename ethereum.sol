@@ -8,7 +8,7 @@ contract RigidBit
     {
         uint timestamp;
     }
-    mapping(bytes64 => Storage) s;
+    mapping(bytes32 => Storage) s;
 
     constructor() public
     {
