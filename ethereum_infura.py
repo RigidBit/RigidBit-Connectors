@@ -14,7 +14,7 @@ if len(sys.argv) != 2:
 CONTRACT = "<INSERT CONTRACT ADDRESS HERE>"
 ABI = json.loads('<INSERT ABI HERE>')
 PRIVATE_KEY = "<INSERT PRIVATE KEY HERE>"
-INFURA_URL = "https://mainnet.infura.io/v3/faea15762de14e49b3f46a9d85d215e7"
+INFURA_URL = "<INSERT INFURA URL HERE>"
 
 def buildTxData():
 	try:
