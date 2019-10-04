@@ -8,9 +8,6 @@ import sys
 from eth_account import Account
 from web3 import Web3, HTTPProvider
 
-if len(sys.argv) != 2:
-	raise Exception("There should be exactly one argument, and it should be a JSON string")
-
 CONTRACT = "<INSERT CONTRACT ADDRESS HERE>"
 ABI = json.loads('<INSERT ABI HERE>')
 PRIVATE_KEY = "<INSERT PRIVATE KEY HERE>"
@@ -32,7 +29,7 @@ def storeHash(hash):
 	try:
 		tx_data = buildTxData()
 		contract = infura.eth.contract(address=CONTRACT, abi=ABI)
-		unsigned = contract.functions.storeHash(data["block_hash"]).buildTransaction(tx_data)
+		unsigned = contract.functions.storeHash(hash).buildTransaction(tx_data)
 		signed = w3.eth.account.signTransaction(unsigned, PRIVATE_KEY)
 		tx_hash = infura.eth.sendRawTransaction(signed.rawTransaction)
 		return tx_hash.hex()[2:]
@@ -46,33 +43,35 @@ def verifyHash(hash):
 	except:
 		return -1
 
-data = json.loads(sys.argv[1])
+input = sys.stdin.read()
+input = json.loads(input)
+
 infura = Web3(HTTPProvider(INFURA_URL))
 w3 = Web3(Web3.IPCProvider("~/.ethereum/geth.ipc"))
 
-if "operation" not in data:
+if "operation" not in input:
 	raise Exception("Operation was not specified.")
 
-elif data["operation"] == "store":
-	operationResult = storeHash(data["block_hash"])
+elif input["operation"] == "store":
+	operationResult = storeHash(input["block_hash"])
 	result = {}
 	if operationResult == -1:
 		result["success"] = False
 	else:
 		result["success"] = True
-		result["contract"] = CONTRACT
+		result["address"] = CONTRACT
 		result["tx_hash"] = operationResult
 	print(json.dumps(result))
 
-elif data["operation"] == "verify":
-	operationResult = verifyHash(data["block_hash"])
+elif input["operation"] == "verify":
+	operationResult = verifyHash(input["block_hash"])
 	result = {}
 	if operationResult == -1:
 		result = {}
 		result["success"] = False
 	else:
 		result["success"] = True
-		result["contract"] = CONTRACT
+		result["address"] = CONTRACT
 		result["timestamp"] = operationResult
 	print(json.dumps(result))
 

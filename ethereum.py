@@ -5,11 +5,6 @@ import sys
 
 from web3.auto import w3
 
-if len(sys.argv) != 2:
-	raise Exception("There should be exactly one argument, and it should be a JSON string")
-
-data = json.loads(sys.argv[1])
-
 CONTRACT = "<INSERT CONTRACT ADDRESS HERE>"
 ABI = json.loads('<INSERT ABI HERE>')
 ACCOUNT = "<INSERT ACCOUNT ADDRESS HERE>"
@@ -34,12 +29,15 @@ def verifyHash(hash):
 	except:
 		return -1
 
+input = sys.stdin.read()
+input = json.loads(input)
+
 if "operation" not in data:
 	raise Exception("Operation was not specified.")
 
-elif data["operation"] == "store":
+elif input["operation"] == "store":
 	unlockAccount()
-	operationResult = storeHash(data["block_hash"])
+	operationResult = storeHash(input["block_hash"])
 	result = {}
 	if operationResult == -1:
 		result["success"] = False
@@ -49,8 +47,8 @@ elif data["operation"] == "store":
 		result["tx_hash"] = operationResult
 	print(json.dumps(result))
 
-elif data["operation"] == "verify":
-	operationResult = verifyHash(data["block_hash"])
+elif input["operation"] == "verify":
+	operationResult = verifyHash(input["block_hash"])
 	result = {}
 	if operationResult == -1:
 		result = {}

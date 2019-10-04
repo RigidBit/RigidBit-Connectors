@@ -12,9 +12,6 @@ import traceback
 from bitcoinrpc.authproxy import AuthServiceProxy, JSONRPCException
 from decimal import *
 
-if len(sys.argv) != 2 and len(sys.argv) != 3:
-	raise Exception("Argument format is <JSON String> [<0 or 1 to debug>]")
-
 RPC_URL = "<INSERT RPC URL HERE>"
 RPC_USERNAME = "<INSERT RPC USERNAME HERE>"
 RPC_PASSWORD = "<INSERT RPC PASSWORD HERE>"
@@ -140,14 +137,15 @@ def verify_hash(rpc, block_hash, tx_hash):
 	except Exception as e:
 		return handle_exception(e)
 
-data = json.loads(sys.argv[1])
+input = sys.stdin.read()
+input = json.loads(input)
 rpc = connect()
 
 if "operation" not in data:
 	raise Exception("Operation was not specified.")
 
-elif data["operation"] == "store":
-	operationResult = store_hash(rpc, data["block_hash"])
+elif input["operation"] == "store":
+	operationResult = store_hash(rpc, input["block_hash"])
 	result = {}
 	if operationResult == -1:
 		result["success"] = False
@@ -156,8 +154,8 @@ elif data["operation"] == "store":
 		result["tx_hash"] = operationResult
 	print(json.dumps(result))
 
-elif data["operation"] == "verify":
-	operationResult = verify_hash(rpc, data["block_hash"], data["tx_hash"])
+elif input["operation"] == "verify":
+	operationResult = verify_hash(rpc, input["block_hash"], input["tx_hash"])
 	result = {}
 	if operationResult == -1:
 		result = {}
