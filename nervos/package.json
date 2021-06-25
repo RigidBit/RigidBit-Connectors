@@ -4,7 +4,7 @@
   "description": "This is a RigidBit connector for usage with Nervos CKB.",
   "main": "src/index.ts",
   "scripts": {
-    "start": "CKB_PRIVATE_KEY=0xcc55923b4746ecc9518526d9ce44a666d2a9a7a0ba22e3fcbfa51c39d24d23ad npx nodemon -e ts,js,json -w tsconfig.json -w src --exec \"echo '{\\\"operation\\\": \\\"store\\\", \\\"block_hash\\\": \\\"0x0000000000000000000000000000000000000000000000000000000000000000\\\"}' | npx ts-node src/index.ts\"",
+    "start-store": "CKB_PRIVATE_KEY=0xcc55923b4746ecc9518526d9ce44a666d2a9a7a0ba22e3fcbfa51c39d24d23ad npx nodemon -e ts,js,json -w tsconfig.json -w src --exec \"echo '{\\\"operation\\\": \\\"store\\\", \\\"block_hash\\\": \\\"0x0000000000000000000000000000000000000000000000000000000000000000\\\"}' | npx ts-node src/index.ts\"",
     "start-verify": "CKB_PRIVATE_KEY=0xcc55923b4746ecc9518526d9ce44a666d2a9a7a0ba22e3fcbfa51c39d24d23ad npx nodemon -e ts,js,json -w tsconfig.json -w src --exec \"echo '{\\\"operation\\\": \\\"verify\\\", \\\"tx_hash\\\": \\\"0x17fcd0215eac430d06fc880d5c0775d01a47ff43f7b73310972187c12489805e\\\", \\\"block_hash\\\": \\\"0x0000000000000000000000000000000000000000000000000000000000000000\\\"}' | npx ts-node src/index.ts\"",
     "docs": "npx typedoc",
     "bump": "npm --no-git-tag-version version patch"
