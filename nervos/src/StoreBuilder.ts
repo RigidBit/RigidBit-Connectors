@@ -1,4 +1,4 @@
-import PWCore, {Address, Amount, AmountUnit, Builder, Cell, RawTransaction, SUDT, Transaction} from "@lay2/pw-core";
+import PWCore, {Address, Amount, AmountUnit, Builder, Cell, RawTransaction, Transaction} from "@lay2/pw-core";
 import BasicCollector from "./BasicCollector";
 
 export default class StoreBuilder extends Builder

@@ -2,7 +2,7 @@
 
 import {stdin} from 'process';
 import {AddressPrefix, privateKeyToAddress} from '@nervosnetwork/ckb-sdk-utils';
-import PWCore, {Address, AddressType, Amount, AmountUnit, AddressPrefix as PwAddressPrefix, getDefaultPrefix, Provider, RawProvider} from '@lay2/pw-core';
+import PWCore, {Address, AddressType, Amount, AmountUnit, AddressPrefix as PwAddressPrefix, getDefaultPrefix, RawProvider} from '@lay2/pw-core';
 import * as _ from 'lodash';
 
 import BasicCollector from './BasicCollector';
@@ -86,14 +86,11 @@ async function store_hash(pw: PwObject, blockHash: string): Promise<string|Numbe
 	const prefix = (pwPrefix === PwAddressPrefix.ckb) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
 	const addressString = privateKeyToAddress(CKB_PRIVATE_KEY, {prefix});
 	const address = new Address(addressString, AddressType.ckb);
-	// console.info(address.addressString);
 
 	const builder = new StoreBuilder(address, collector, fee, add0x(blockHash));
 	const transaction = await builder.build();
-	// console.info(transaction);
 
 	const txId = await pw.pwCore.sendTransaction(transaction);
-	// console.info(`Transaction submitted: ${txId}`);
 
 	return txId;
 }
@@ -145,7 +142,7 @@ async function main()
 			result["tx_hash"] = String(operationResult);
 		}
 
-		process.stdout.write(JSON.stringify(result));
+		process.stdout.write(JSON.stringify(result) + '\n');
 	}
 	else if(input.operation === 'verify')
 	{
@@ -160,7 +157,7 @@ async function main()
 			result["timestamp"] = operationResult;
 		}
 
-		process.stdout.write(JSON.stringify(result));
+		process.stdout.write(JSON.stringify(result) + '\n');
 	}
 	else
 		throw new Error('Invalid operation specified.');
