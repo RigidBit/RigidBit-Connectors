@@ -13,6 +13,13 @@ const CKB_RPC_URL = 'http://localhost:8114/';
 const CKB_INDEXER_RPC_URL = 'http://localhost:8116/';
 const CKB_TX_FEE = 10_000n;
 
+interface InputObject
+{
+	operation: string,
+	block_hash?: string,
+	tx_hash?: string,
+}
+
 interface PwObject
 {
 	pwCore: PWCore,
@@ -77,6 +84,25 @@ async function initPwCore(): Promise<PwObject>
 	return {pwCore, provider, collector};
 }
 
+function validate_input(input: InputObject)
+{
+	if(!_.has(input, 'operation'))
+		throw new Error('Operation was not specified.');
+
+	if(input.operation === 'store')
+	{
+		if(!_.has(input, 'block_hash'))
+			throw new Error(`Missing key "block_hash".`);
+	}
+	else if(input.operation === 'verify')
+	{
+		if(!_.has(input, 'block_hash'))
+			throw new Error(`Missing key "block_hash".`);
+		if(!_.has(input, 'tx_hash'))
+			throw new Error(`Missing key "tx_hash".`);
+	}
+}
+
 async function store_hash(pw: PwObject, blockHash: string): Promise<string|Number>
 {
 	const collector = new BasicCollector(CKB_INDEXER_RPC_URL);
@@ -126,39 +152,42 @@ async function main()
 	const inputStdin = await getStdin();
 	const input = JSON.parse(inputStdin);
 
-	if(!_.has(input, 'operation'))
-		throw new Error('Operation was not specified.');
+	// Ensure the input has proper structure.
+	validate_input(input);
 
+	// Handle a store operation.
 	if(input.operation === 'store')
 	{
 		const pw = await initPwCore();
-		const operationResult = await store_hash(pw, input["block_hash"])
+		const operationResult = await store_hash(pw, input['block_hash'])
 		const result: ResultObject = {};
 		if(operationResult === -1)
-			result["success"] = false;
+			result['success'] = false;
 		else
 		{
-			result["success"] = true;
-			result["tx_hash"] = String(operationResult);
+			result['success'] = true;
+			result['tx_hash'] = String(operationResult);
 		}
 
 		process.stdout.write(JSON.stringify(result) + '\n');
 	}
+	// Handle a verify operation.
 	else if(input.operation === 'verify')
 	{
 		const pw = await initPwCore();
-		const operationResult = await verify_hash(pw, input["block_hash"], input["tx_hash"])
+		const operationResult = await verify_hash(pw, input['block_hash'], input['tx_hash'])
 		const result: ResultObject = {};
 		if(operationResult === -1)
-			result["success"] = false;
+			result['success'] = false;
 		else
 		{
-			result["success"] = true;
-			result["timestamp"] = operationResult;
+			result['success'] = true;
+			result['timestamp'] = operationResult;
 		}
 
 		process.stdout.write(JSON.stringify(result) + '\n');
 	}
+	// Catch unhandled operations.
 	else
 		throw new Error('Invalid operation specified.');
 }
