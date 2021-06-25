@@ -24,6 +24,7 @@ Usage:
 
 - Copy the `nervos` folder and all contents to into you RigidBit connectors folder. This defaults to `~/.rigidbit/connectors`.
 - Open a terminal to the `nervos` connector folder and install all dependencies with `npm i`.
+- Open `nervos/src/index.ts` and edit your CKB Node RPC URL and CKB Indexer RPC URL.
 - Generate a 0x prefixed 256-bit private key. This should be a new private key for this purpose only. Do not share this key with any other application.
 - Fund the corresponding Nervos address for the private key with CKBytes. A supply of 500 CKBytes should be enough to last a very long time.
 - Set the CKB_PRIVATE_KEY environment variable to your private key.
