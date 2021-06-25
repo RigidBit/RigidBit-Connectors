@@ -160,6 +160,8 @@ async function main()
 	{
 		const pw = await initPwCore();
 		const operationResult = await store_hash(pw, input['block_hash'])
+	
+		// Generate a result object.
 		const result: ResultObject = {};
 		if(operationResult === -1)
 			result['success'] = false;
@@ -169,6 +171,7 @@ async function main()
 			result['tx_hash'] = String(operationResult);
 		}
 
+		// Print the result as a JSON string to STDOUT.
 		process.stdout.write(JSON.stringify(result) + '\n');
 	}
 	// Handle a verify operation.
@@ -176,6 +179,8 @@ async function main()
 	{
 		const pw = await initPwCore();
 		const operationResult = await verify_hash(pw, input['block_hash'], input['tx_hash'])
+
+		// Generate a result object.
 		const result: ResultObject = {};
 		if(operationResult === -1)
 			result['success'] = false;
@@ -185,6 +190,7 @@ async function main()
 			result['timestamp'] = operationResult;
 		}
 
+		// Print the result as a JSON string to STDOUT.
 		process.stdout.write(JSON.stringify(result) + '\n');
 	}
 	// Catch unhandled operations.
