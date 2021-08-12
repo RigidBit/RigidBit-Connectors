@@ -1,5 +1,3 @@
-'use strict';
-
 import {stdin} from 'process';
 import {AddressPrefix, privateKeyToAddress} from '@nervosnetwork/ckb-sdk-utils';
 import PWCore, {Address, AddressType, Amount, AmountUnit, AddressPrefix as PwAddressPrefix, getDefaultPrefix, RawProvider} from '@lay2/pw-core';
