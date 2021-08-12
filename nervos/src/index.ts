@@ -7,8 +7,8 @@ import BasicCollector from './BasicCollector';
 import StoreBuilder from './StoreBuilder';
 
 const CKB_PRIVATE_KEY = add0x(String(process.env.CKB_PRIVATE_KEY));
-const CKB_RPC_URL = 'http://localhost:8114/';
-const CKB_INDEXER_RPC_URL = 'http://localhost:8116/';
+const CKB_RPC_URL = 'http://localhost:18114/';
+const CKB_INDEXER_RPC_URL = 'http://localhost:18116/';
 const CKB_TX_FEE = 10_000n;
 
 interface InputObject
