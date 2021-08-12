@@ -54,3 +54,29 @@ sync_at_launch = true
 ```
 
 - Save `config.toml` and restart RigidBit to apply the settings.
+
+## Operations
+
+A connector takes one of two operations:
+
+- Store - Store a block hash in a blockchain.
+- Verify - Verify a block hash in a blockchain.
+
+### Store Example
+
+```json
+{
+	"operation": "store",
+	"block_hash": "0x530a04f57109776966e4f48cc77fb19cba14eddb753c1b0bbf2fa59b2fa702f1"}
+}
+```
+
+### Verify Example
+
+```json
+{
+	"operation": "verify",
+	"tx_hash": "0x17fcd0215eac430d06fc880d5c0775d01a47ff43f7b73310972187c12489805e",
+	"block_hash": "0x530a04f57109776966e4f48cc77fb19cba14eddb753c1b0bbf2fa59b2fa702f1"
+}
+```
