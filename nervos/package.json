@@ -11,7 +11,7 @@
   "author": "Jordan Mack <jordan.mack@brilliantnotion.com>",
   "license": "MIT",
   "dependencies": {
-    "@lay2/pw-core": "file:/home/jmack/dev/pw-core",
+    "@lay2/pw-core": "0.4.0-alpha.9",
     "@nervosnetwork/ckb-sdk-utils": "^0.43.0",
     "get-stdin": "^9.0.0",
     "lodash": "^4.17.21",
